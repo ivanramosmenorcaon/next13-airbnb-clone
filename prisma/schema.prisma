@@ -6,72 +6,186 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id              String @id @default(auto()) @map("_id") @db.ObjectId
-  name            String?
-  email           String?   @unique
-  emailVerified   DateTime?
-  image           String?
-  hashedPassword  String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  favoriteIds     String[] @db.ObjectId
 
-  accounts Account[]
-  listings Listing[]
+model ListingFavorite{
+  id        String       @id @default(uuid())
+  userId    String   
+  listingId String   
+  createdAt DateTime @default(now())
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  @@map("listingFavorites")
+}
+
+model User {
+  id             String       @id @default(uuid())
+  name           String?
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  accounts     Account[]
+  listings     Listing[]
   reservations Reservation[]
+  listing_favorites    ListingFavorite[]
+  @@map("users")
 }
 
 model Account {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId             String   @db.ObjectId
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.String
-  access_token       String?  @db.String
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.String
-  session_state      String?
+  id             String       @id @default(uuid())
+  userId            String  
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String? 
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? 
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
+
+  @@map("accounts")
+}
+
+
+model Location{
+  id             String       @id @default(uuid())
+  country   String
+  city      String
+  address   String
+  lat       Float
+  lng       Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Establishment Establishment[]
+  @@map("locations")
+
+}
+
+
+
+model Category{
+  id             String       @id @default(uuid())
+  name   String
+  name_en String
+  name_es String
+  name_fr String
+  name_de String
+  icon  String
+  description_en String
+  description_es String
+  description_fr String
+  description_de String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  CategoryOptions CategoryOption[]
+  ListingCategories ListingCategory[]
+  @@map("categories")
+}
+
+model CategoryOption{
+  id             String       @id @default(uuid())
+  name   String
+  name_en String
+  name_es String
+  name_fr String
+  name_de String
+  icon  String
+  description_en String
+  description_es String
+  description_fr String
+  description_de String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  CategoryId String
+  Category Category @relation(fields: [CategoryId], references: [id], onDelete: Cascade)
+  @@map("categoryOptions")
+}
+
+model ListingCategory{
+  id             String       @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ListingId String
+  Listing Listing @relation(fields: [ListingId], references: [id], onDelete: Cascade)
+  CategoryId String
+  Category Category @relation(fields: [CategoryId], references: [id], onDelete: Cascade)
+  @@map("listingCategories")
 }
 
 model Listing {
-  id             String @id @default(auto()) @map("_id") @db.ObjectId
-  title String
-  description String
-  imageSrc String
-  createdAt DateTime @default(now())
-  category  String
-  roomCount Int
-  bathroomCount Int
-  guestCount Int
-  locationValue String
-  userId String @db.ObjectId
-  price Int
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             String       @id @default(uuid())
+  title         String
+  description   String
+  imageSrc      String
+  createdAt     DateTime @default(now())
+  catergoryId    String
+  userId        String      
+  price         Int
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   reservations Reservation[]
+  Establishment Establishment[]
+  Subscription Subscription[]
+  ListingCategories ListingCategory[]
+  ListingFavorites ListingFavorite[]
+  @@map("listings")
+}
+
+model Establishment {
+  id        String      @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  listingId String
+  Listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  locationId String
+  Location   Location  @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  @@map("establishments")
 }
 
 model Reservation {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  listingId String @db.ObjectId  
-  startDate DateTime
-  endDate DateTime
+  id        String       @id @default(uuid())
+  userId     String   
+  listingId  String   
+  startDate  DateTime
+  endDate    DateTime
   totalPrice Int
-  createdAt DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  @@map("reservations")
+}
+
+model Subscription {
+  id        String       @id @default(uuid())
+  type      String
+  userId    String   
+  listingId String   
+  startAt  DateTime 
+  endAt    DateTime
+  createdAt DateTime @default(now())
+  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  typeId   String
+  SubscriptionType SubscriptionType @relation(fields: [typeId], references: [id], onDelete: Cascade)
+  @@map("subscriptions")
+}
+
+model SubscriptionType{
+  id        String       @id @default(uuid())
+  type      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Subscription Subscription[]
+  @@map("subscriptionTypes")
 }
