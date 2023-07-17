@@ -5,13 +5,16 @@ import Container from "../Container";
 import Logo from "./Logo";
 import Search from "./Search";
 import UserMenu from "./UserMenu";
+import { ICategoriesParams } from "@/app/actions/getCategories";
+
 
 interface NavbarProps {
   currentUser?: SafeUser | null;
+  categories?: ICategoriesParams[];
 }
 
 const Navbar: React.FC<NavbarProps> = ({
-  currentUser,
+  currentUser,categories
 }) => {
   return ( 
     <div className="fixed w-full bg-white z-10 shadow-sm">
@@ -38,7 +41,7 @@ const Navbar: React.FC<NavbarProps> = ({
         </div>
       </Container>
     </div>
-    <Categories />
+    <Categories categories={categories}/>
   </div>
   );
 }

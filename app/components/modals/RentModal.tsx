@@ -17,7 +17,7 @@ import Modal from "./Modal";
 import Counter from "../inputs/Counter";
 import CategoryInput from '../inputs/CategoryInput';
 import CountrySelect from "../inputs/CountrySelect";
-import { categories } from '../navbar/Categories';
+
 import ImageUpload from '../inputs/ImageUpload';
 import Input from '../inputs/Input';
 import Heading from '../Heading';
@@ -144,7 +144,7 @@ const RentModal = () => {
           overflow-y-auto
         "
       >
-        {categories.map((item) => (
+        {/* {(categories).map((item) => (
           <div key={item.label} className="col-span-1">
             <CategoryInput
               onClick={(category) => 
@@ -154,7 +154,7 @@ const RentModal = () => {
               icon={item.icon}
             />
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   )

@@ -7,6 +7,8 @@ import getListings, {
 } from "@/app/actions/getListings";
 import getCurrentUser from "@/app/actions/getCurrentUser";
 import ClientOnly from "./components/ClientOnly";
+import getCategories from "./actions/getCategories";
+
 
 interface HomeProps {
   searchParams: IListingsParams

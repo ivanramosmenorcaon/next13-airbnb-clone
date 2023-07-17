@@ -82,7 +82,7 @@ model Category{
   name_es String
   name_fr String
   name_de String
-  icon  String
+  icon    CategoryIcon @default(RESTAURANT)
   description_en String
   description_es String
   description_fr String
@@ -188,4 +188,18 @@ model SubscriptionType{
   updatedAt DateTime @updatedAt
   Subscription Subscription[]
   @@map("subscriptionTypes")
+}
+
+
+enum CategoryIcon{
+  RESTAURANT
+  BAR
+  HOTEL
+  CAFE
+  MUSEUM
+  PARK
+  BEACH
+  SHOPPING
+  NIGHTLIFE
+  OTHER
 }
