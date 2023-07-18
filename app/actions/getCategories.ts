@@ -30,7 +30,6 @@ export default async function getCategories(params: {language: string}) {
       updatedAt: category.updatedAt.toISOString(),
     }));
 
-    console.log(safeCategories)
     return safeCategories;
   } catch (error: any) {
     throw new Error(error);
