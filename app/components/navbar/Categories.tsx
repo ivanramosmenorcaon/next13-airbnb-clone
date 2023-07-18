@@ -1,8 +1,5 @@
-"use client";
-
+'use client'
 import { usePathname, useSearchParams } from "next/navigation";
-import { BiRestaurant, BiBody } from "react-icons/bi";
-
 import CategoryBox from "../CategoryBox";
 import Container from "../Container";
 import { ICategoriesParams } from "@/app/actions/getCategories";
