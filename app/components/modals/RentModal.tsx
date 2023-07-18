@@ -15,7 +15,6 @@ import useRentModal from '@/app/hooks/useRentModal';
 
 import Modal from "./Modal";
 import Counter from "../inputs/Counter";
-import CategoryInput from '../inputs/CategoryInput';
 import CountrySelect from "../inputs/CountrySelect";
 
 import ImageUpload from '../inputs/ImageUpload';
