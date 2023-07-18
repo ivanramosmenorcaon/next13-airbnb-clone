@@ -109,6 +109,7 @@ model CategoryOption{
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   CategoryId String
+  GroupCategory CategoryGroup
   Category Category @relation(fields: [CategoryId], references: [id], onDelete: Cascade)
   @@map("categoryOptions")
 }
@@ -203,4 +204,15 @@ enum CategoryIcon{
   NIGHTLIFE
   SERVICE
   OTHER
+}
+
+enum CategoryGroup{
+  CIUDADES
+  PRECIOGASTRONOMICO
+  CALIDAD
+  CATEGORIAS
+  HORARIO
+  INTERVALOPRECIO
+  TIPOCOMIDA
+  TIPOCOMERCIO
 }
