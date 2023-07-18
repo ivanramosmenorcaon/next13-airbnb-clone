@@ -14,7 +14,6 @@ import {
 
 import HeartButton from "../HeartButton";
 import Button from "../Button";
-import ClientOnly from "../ClientOnly";
 
 interface ListingCardProps {
   data: SafeListing;
@@ -38,7 +37,7 @@ const ListingCard: React.FC<ListingCardProps> = ({
   const router = useRouter();
   const { getByValue } = useCountries();
 
-  const location = getByValue(data.locationValue);
+  // const location = getByValue();
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -109,10 +108,10 @@ const ListingCard: React.FC<ListingCardProps> = ({
           </div>
         </div>
         <div className="font-semibold text-lg">
-          {location?.region}, {location?.label}
+          {/* {location?.region}, {location?.label} */}
         </div>
         <div className="font-light text-neutral-500">
-          {reservationDate || data.category}
+          {/* {reservationDate || data.category} */}
         </div>
         <div className="flex flex-row items-center gap-1">
           <div className="font-semibold">

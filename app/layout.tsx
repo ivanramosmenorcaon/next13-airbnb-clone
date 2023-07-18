@@ -1,4 +1,4 @@
-import { Nunito } from 'next/font/google'
+import {  Nunito } from 'next/font/google'
 
 import Navbar from '@/app/components/navbar/Navbar';
 import LoginModal from '@/app/components/modals/LoginModal';
@@ -29,18 +29,17 @@ export default async function RootLayout({
 }) {
   const currentUser = await getCurrentUser();
   const categories= await getCategories({ language: "es" });
-
   return (
     <html lang="en">
       <body className={font.className}>
-        <ClientOnly>
+        <>
           <ToasterProvider />
           <LoginModal />
           <RegisterModal />
           <SearchModal />
           <RentModal />
           <Navbar currentUser={currentUser} categories={categories} />
-        </ClientOnly>
+        </>
         <div className="pb-20 pt-28">
           {children}
         </div>

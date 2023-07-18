@@ -6,8 +6,6 @@ import getListings, {
   IListingsParams
 } from "@/app/actions/getListings";
 import getCurrentUser from "@/app/actions/getCurrentUser";
-import ClientOnly from "./components/ClientOnly";
-import getCategories from "./actions/getCategories";
 
 
 interface HomeProps {
@@ -20,14 +18,13 @@ const Home = async ({ searchParams }: HomeProps) => {
 
   if (listings.length === 0) {
     return (
-      <ClientOnly>
+      <>
         <EmptyState showReset />
-      </ClientOnly>
+      </>
     );
   }
 
   return (
-    <ClientOnly>
       <Container>
         <div 
           className="
@@ -51,7 +48,7 @@ const Home = async ({ searchParams }: HomeProps) => {
           ))}
         </div>
       </Container>
-    </ClientOnly>
+
   )
 }
 

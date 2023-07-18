@@ -201,5 +201,6 @@ enum CategoryIcon{
   BEACH
   SHOPPING
   NIGHTLIFE
+  SERVICE
   OTHER
 }
